@@ -10,7 +10,6 @@ public class UsuarioMapper {
     public Usuario toEntity(RegistrarUsuarioDTO dto) {
         if (dto == null) return null;
 
-        // Limpiamos el RUT para guardarlo estandarizado sin puntos (ej: 12345678-9)
         String rutEstandarizado = dto.getRut().replace(".", "").toUpperCase();
 
         Usuario usuario = new Usuario();
