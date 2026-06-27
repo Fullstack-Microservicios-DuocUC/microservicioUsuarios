@@ -46,4 +46,12 @@ public class GlobalExceptionHandler {
         problem.setProperty("timestamp", Instant.now());
         return problem;
     }
+    
+    @ExceptionHandler(UsuarioDuplicadoException.class)
+    public ProblemDetail handleUsuarioDuplicado(UsuarioDuplicadoException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problem.setTitle("Usuario Duplicado");
+        problem.setProperty("timestamp", Instant.now());
+        return problem;
+    }
 }

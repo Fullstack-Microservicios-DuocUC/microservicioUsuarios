@@ -2,6 +2,7 @@ package cl.duoc.mineria.usuarios.service;
 
 import cl.duoc.mineria.usuarios.dto.ActualizarRolUsuarioDTO;
 import cl.duoc.mineria.usuarios.dto.RegistrarUsuarioDTO;
+import cl.duoc.mineria.usuarios.exception.UsuarioDuplicadoException;
 import cl.duoc.mineria.usuarios.exception.UsuarioNotFoundException;
 import cl.duoc.mineria.usuarios.mapper.UsuarioMapper;
 import cl.duoc.mineria.usuarios.model.Usuario;
@@ -23,9 +24,8 @@ public class ServiceUsuario { // Nombre alineado con tus estándares
     public Usuario registrarUsuario(RegistrarUsuarioDTO dto) {
         String rutLimpio = dto.getRut().replace(".", "").toUpperCase();
         if (usuarioRepository.findByRut(rutLimpio).isPresent()) {
-            throw new UsuarioNotFoundException("El trabajador con RUT " + dto.getRut() + " ya se encuentra registrado.");
+            throw new UsuarioDuplicadoException("El trabajador con RUT " + dto.getRut() + " ya se encuentra registrado.");
         }
-
         Usuario nuevoUsuario = usuarioMapper.toEntity(dto);
         return usuarioRepository.save(nuevoUsuario);
     }
@@ -52,4 +52,6 @@ public class ServiceUsuario { // Nombre alineado con tus estándares
     public boolean existeUsuario(Long id) {
         return usuarioRepository.existsById(id);
     }
+
+    
 }
